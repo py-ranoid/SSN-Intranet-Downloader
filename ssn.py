@@ -45,16 +45,18 @@ def DownloadFiles(file_refs, folderpath, types):
             #   tabtext  - Topic related text from table row
             if linktext:
                 fl = link.split('/')[-1]
+                flname,flext = os.path.splitext(fl)
                 if tabtext is None:
-                    fname = linktext + ' (' + fl[:-4] + ')' + fl[-4:]
+                    fname = linktext + ' (' + flname + ')' + flext
                 else:
-                    fname = tabtext + ' - ' + linktext + ' (' + fl[:-4] + ')' + fl[-4:]
+                    fname = tabtext + ' - ' + linktext + ' (' + flname + ')' + flext
             else:
                 fl = link.split('/')[-1]
+                flname,flext = os.path.splitext(fl)
                 if tabtext is None:
                     fname = fl
                 else:
-                    fname = tabtext + ' (' + fl[:-4] + ')' + fl[-4:]
+                    fname = tabtext + ' (' + flname + ')' + flext
 
             # Replacing / in filenames with - to avoid directory issues in Linux Filesystem
             fname = '-'.join(fname.split('/'))
