@@ -8,10 +8,13 @@ from urlparse import urljoin
 
 #   Setting Argument parsing for command line inputs
 parser = argparse.ArgumentParser()
-parser.add_argument("-b", "--branch", help="Branch ID. 5 for CSE. 9 for IT", type=int)
+parser.add_argument(
+    "-b", "--branch", help="Branch ID. 5 for CSE. 9 for IT", type=int)
 parser.add_argument("-y", "--year", help="Year. 1/2/3/4", type=int)
-parser.add_argument("-s", "--sem", help="Semester. 1 - Odd / 2 - Even", type=int)
-parser.add_argument("-p", "--path", help="Path to store files", type=str, default=os.getcwd())
+parser.add_argument(
+    "-s", "--sem", help="Semester. 1 - Odd / 2 - Even", type=int)
+parser.add_argument("-p", "--path", help="Path to store files",
+                    type=str, default=os.getcwd())
 args = parser.parse_args()
 URLOpen = urllib.URLopener()
 raw_primeurl = None
@@ -45,14 +48,15 @@ def DownloadFiles(file_refs, folderpath, types):
             #   tabtext  - Topic related text from table row
             if linktext:
                 fl = link.split('/')[-1]
-                flname,flext = os.path.splitext(fl)
+                flname, flext = os.path.splitext(fl)
                 if tabtext is None:
                     fname = linktext + ' (' + flname + ')' + flext
                 else:
-                    fname = tabtext + ' - ' + linktext + ' (' + flname + ')' + flext
+                    fname = tabtext + ' - ' + linktext + \
+                        ' (' + flname + ')' + flext
             else:
                 fl = link.split('/')[-1]
-                flname,flext = os.path.splitext(fl)
+                flname, flext = os.path.splitext(fl)
                 if tabtext is None:
                     fname = fl
                 else:
@@ -80,10 +84,11 @@ def DownloadFiles(file_refs, folderpath, types):
         percentage = 100 * progress / totalprog
         sys.stdout.write('\r')
         sys.stdout.flush()
-        sys.stdout.write("Progress : [%-50s] %d%%" % ('=' * (percentage / 2), percentage))
+        sys.stdout.write("Progress : [%-50s] %d%%" %
+                         ('=' * (percentage / 2), percentage))
 
     # Prints new line after status bar
-    print
+    file
     #   Print list of files that were not found
     for errlink in errlog:
         print 'Error 404 :', errlink, 'not found'
@@ -224,7 +229,7 @@ def getFileLinks(subject_link):
 
     #   Finding all links present in table rows
     tabs = soup.find_all('tr', attrs={'class': 'twikiTableEven'}) \
-           + soup.find_all('tr', attrs={'class': 'twikiTableOdd'})
+        + soup.find_all('tr', attrs={'class': 'twikiTableOdd'})
     refs = getTableRefs(tabs)
 
     #   Adding links besides table rows
@@ -242,7 +247,7 @@ def getFileLinks(subject_link):
 
 
 # Create a HTML clone of Primary page with local addresses instead of URLs
-def createPrimeHTML(subfiles,path):
+def createPrimeHTML(subfiles, path):
     global folder_name, raw_primeurl
     prime_url = sanitize(raw_primeurl)
     prime_fname = folder_name + '.html'
@@ -285,7 +290,8 @@ def main():
             if file_links:
                 folder_path = os.path.join(secpath, subname)
                 dirCheck(folder_path)
-                replacements = DownloadFiles(file_links, folder_path, ('pdf', 'ppt', 'doc', 'pptx', 'docx'))
+                replacements = DownloadFiles(
+                    file_links, folder_path, ('pdf', 'ppt', 'doc', 'pptx', 'docx'))
             else:
                 #   If file_links is empty
                 print 'No links found.'
@@ -302,7 +308,7 @@ def main():
                 html = html.replace(raw_primeurl, 'file://' + html_fpath)
                 htmlfile.write(html)
                 subject_fpaths[rawlink] = html_fpath
-    createPrimeHTML(subject_fpaths,path)
+    createPrimeHTML(subject_fpaths, path)
 
 
 if __name__ == '__main__':
