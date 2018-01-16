@@ -9,6 +9,11 @@ uname = remote_parts[3]
 
 
 def modify():
+    """
+        'master' uses GH pages repository URL as bas path.
+        'modify', reads all the html files and replaces the repository's GH page URL (curr)
+        with that of the base path (newpath).
+    """
     curr = 'https://' + uname + '.github.io/SSN-Intranet-Downloader'
     newpath = 'file://' + os.getcwd()
     allhtmls = glob.glob('*/*/*.html') + glob.glob('*/*.html')
@@ -21,10 +26,13 @@ def modify():
 
 
 def gitops():
+    """
+        To stage, commit and push files to GH
+    """
     r.index.add(['CseElearnThirdYear/*'])
     r.index.commit('Added files - ' + str(datetime.datetime.now()))
     org = r.remotes.origin
-    org.push('master')
+    org.push('local')
 
 
 modify()
