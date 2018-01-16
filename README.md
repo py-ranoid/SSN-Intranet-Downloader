@@ -1,7 +1,7 @@
 # SSN Intranet Downloader
-####*Python Script to download all files for CSE/IT  given year &amp;  semester from the intranet and hence generate a local copy of the webpages.* 
+#### *Python Script to download all files for CSE/IT  given year &amp;  semester from the intranet and hence generate a local copy of the webpages.* 
 
-###Requirements
+### Requirements
 * Python 2.7
 * bs4 ([Beautiful Soup library](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup))
 
@@ -12,7 +12,7 @@ Options | Help
 -s | **Semester**. 1 - *Odd* / 2 - *Even*
 -p | **Path** to download files to
 
-###Example 
+### Example 
 To run the script. (***Input using prompts)***
 
 	python ssn.py
@@ -29,5 +29,3 @@ To download 3rd year IT odd semester files in /home/MyComputer
 - Progress bar to indicate download status of each subject 
 - Renames files based on headings/ link text from pages.  
 - Updates downloaded files every time script is run. Does not overwrite prexisting files.
-
-
