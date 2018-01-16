@@ -18,3 +18,6 @@ for f in allhtmls:
 
 r.index.add(['CseElearnThirdYear/*'])
 r.index.commit('Added files - ' + str(datetime.datetime.now()))
+
+org = r.remotes.origin
+org.push('master')
