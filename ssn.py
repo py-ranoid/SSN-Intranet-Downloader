@@ -5,6 +5,7 @@ import os
 import sys
 import argparse
 from urlparse import urljoin
+import re
 
 #   Setting Argument parsing for command line inputs
 parser = argparse.ArgumentParser()
@@ -88,7 +89,7 @@ def DownloadFiles(file_refs, folderpath, types):
                          ('=' * (percentage / 2), percentage))
 
     # Prints new line after status bar
-    file
+    print
     #   Print list of files that were not found
     for errlink in errlog:
         print 'Error 404 :', errlink, 'not found'
@@ -256,7 +257,19 @@ def createPrimeHTML(subfiles, path):
         html = urllib2.urlopen(prime_url).read()
         for i in subfiles:
             html = html.replace(i, 'file://' + subfiles[i])
-        html_file.write(html)
+        html_file.write(dropSideBar(html))
+
+
+def dropSideBar(html):
+    sp = BeautifulSoup(html, "html.parser")
+    sidebar = re.findall(
+        '<div id="patternLeftBar">(?:[\n]|.)*<!-- /patternLeftBar-->', html)
+    if sidebar:
+        # print "Sidebar dropped"
+        return html.replace(sidebar[0], '')
+    else:
+        # print "Sidebar not Found"
+        return html
 
 
 def main():
@@ -306,7 +319,8 @@ def main():
                 for i in replacements:
                     html = html.replace(i, 'file://' + replacements[i])
                 html = html.replace(raw_primeurl, 'file://' + html_fpath)
-                htmlfile.write(html)
+                reduced = dropSideBar(html)
+                htmlfile.write(reduced)
                 subject_fpaths[rawlink] = html_fpath
     createPrimeHTML(subject_fpaths, path)
 
