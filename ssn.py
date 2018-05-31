@@ -33,7 +33,20 @@ def inasoup(url):
     return BeautifulSoup(page_html, "html.parser")
 
 
+ANALYICS = """
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-103678083-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-103678083-3');
+  ga('send', 'pageview', location);
+</script>
+"""
 #   Function to download files
+
+
 def DownloadFiles(file_refs, folderpath, types):
     errlog = []
     progress = 0
