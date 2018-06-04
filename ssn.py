@@ -340,7 +340,7 @@ def main():
                     html = html.replace(i, 'file://' + replacements[i])
                 html = html.replace(raw_primeurl, 'file://' + html_fpath)
                 reduced = dropSideBar(html)
-                htmlfile.write(reduced)
+                htmlfile.write(add_GA(reduced))
                 subject_fpaths[rawlink] = html_fpath
     createPrimeHTML(subject_fpaths, path)
 
