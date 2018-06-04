@@ -32,18 +32,6 @@ def inasoup(url):
     page_html = urllib2.urlopen(url).read()
     return BeautifulSoup(page_html, "html.parser")
 
-
-ANALYICS = """
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-103678083-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-103678083-3');
-  ga('send', 'pageview', location);
-</script>
-"""
 #   Function to download files
 
 
@@ -270,7 +258,26 @@ def createPrimeHTML(subfiles, path):
         html = urllib2.urlopen(prime_url).read()
         for i in subfiles:
             html = html.replace(i, 'file://' + subfiles[i])
-        html_file.write(dropSideBar(html))
+        html_file.write(add_GA(dropSideBar(html)))
+
+
+ANAL = """
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-103678083-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-103678083-3');
+  ga('send', 'pageview', location);
+</script>
+"""
+
+
+def add_GA(html):
+    tail = re.findall(r'</body>(?:[\n]|.)*</html>', html)[0]
+    new_tail = '</body>' + '\n' + ANAL + '\n' + '</html>'
+    return html.replace(tail, new_tail)
 
 
 def dropSideBar(html):
