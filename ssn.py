@@ -192,6 +192,15 @@ def getTableRefs(tabs):
             pass
     return refs
 
+def getSubURLs_backweb(all_results):
+    a_links = {}
+    b_links = {}
+    for i in all_results:
+        if i.text.startswith('CseB'):
+            b_links[i.attrs['href']] = i.text
+        elif i.text.startswith('CseA'):
+            a_links[i.attrs['href']] = i.text
+    return [a_links,b_links]
 
 #   Get links of all subject pages
 def getSubjectLinks(path):
@@ -202,23 +211,30 @@ def getSubjectLinks(path):
     if subject_id in [4, 8]:
         raw_primeurl = getPrimeURL(subject_url, subject_id)
         primeurl = sanitize(raw_primeurl)
-        prime_table = getPrimeTab(primeurl, subject_id)
+        primeurl2 = primeurl + '?template=backlinksallwebs'
+
+        s = inasoup(primeurl2)
+        results = s.select('div.twikiLeft a')
+        links = getSubURLs_backweb(results)
 
         folder_name = primeurl.split('/')[-1]
         path = os.path.join(path, folder_name)
         dirCheck(path)
-        all_links = [{}, {}]
 
-        #   Iterating over sections (A/B)
-        for sec in [0, 1]:
+        return links,path
 
-            #   Iterating over links in section table
-            for ref in prime_table[sec]:
-                link = str(ref.get('href'))
-                title = str(ref.text)
-                all_links[sec][link] = title
-
-        return all_links, path
+        # all_links = [{}, {}]
+        #
+        # #   Iterating over sections (A/B)
+        # for sec in [0, 1]:
+        #
+        #     #   Iterating over links in section table
+        #     for ref in prime_table[sec]:
+        #         link = str(ref.get('href'))
+        #         title = str(ref.text)
+        #         all_links[sec][link] = title
+        #
+        # return all_links, path
 
     else:
         print 'Cannot download sujects other than :\n5. Computer Science and Engineering \n9. Information Technology'
@@ -246,7 +262,6 @@ def getFileLinks(subject_link):
         return
 
     return refs
-
 
 # Create a HTML clone of Primary page with local addresses instead of URLs
 def createPrimeHTML(subfiles, path):
