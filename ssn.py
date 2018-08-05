@@ -266,7 +266,7 @@ def getFileLinks(subject_link):
 # Create a HTML clone of Primary page with local addresses instead of URLs
 def createPrimeHTML(subfiles, path):
     global folder_name, raw_primeurl
-    prime_url = sanitize(raw_primeurl)
+    prime_url = sanitize(raw_primeurl+ '?template=backlinksallwebs')
     prime_fname = folder_name + '.html'
     prime_fname = os.path.join(path, prime_fname)
     with open(prime_fname, 'w') as html_file:

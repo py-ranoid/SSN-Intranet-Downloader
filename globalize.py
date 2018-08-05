@@ -30,7 +30,7 @@ def gitops(ghpagesbranch='master'):
         Pushes them to branch used to serve ghpages. (master, in my case)
         Make sure you set up GH Pages for your repo.
     """
-    r.index.add(['CseElearnThirdYear/*'])
+    r.index.add(['CseElearnFourthYear/*'])
     r.index.commit('Added files - ' + str(datetime.datetime.now()))
     org = r.remotes.origin
     org.push(ghpagesbranch)
